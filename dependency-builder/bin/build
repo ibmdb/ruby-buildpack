@@ -1,0 +1,7 @@
+#!/bin/bash
+
+set -eo pipefail
+
+./bin/ensure_trusty_box
+
+vagrant ssh -c "sudo docker run -v /vagrant:/dependency-builder -w /dependency-builder cloudfoundry/lucid64 './vagrant-specific/build.mri-1.9.3'"
