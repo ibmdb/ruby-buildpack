@@ -17,3 +17,4 @@ vendor/bundle/*
 vendor/bundler/*
 /ruby_buildpack-offline-v[0-9\.]*.zip
 /ruby_buildpack-v[0-9\.]*.zip
+.vagrant

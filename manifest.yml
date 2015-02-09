@@ -205,3 +205,4 @@ exclude_files:
   - bin/package
   - buildpack-packager/
   - ruby_buildpack-*v*.zip
+  - dependency-builder/
