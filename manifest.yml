@@ -105,7 +105,7 @@ dependencies:
     uri: https://s3-external-1.amazonaws.com/heroku-buildpack-ruby/cedar/ruby-2.0.0.tgz
   - name: ruby
     version: 1.9.3
-    uri: https://s3-external-1.amazonaws.com/heroku-buildpack-ruby/cedar/ruby-1.9.3.tgz
+    uri: https://s3.amazonaws.com/test-own-deps/ruby-buildpack/ruby-1.9.3.tgz
   - name: ruby
     version: 1.9.2
     uri: https://s3-external-1.amazonaws.com/heroku-buildpack-ruby/cedar/ruby-1.9.2.tgz
