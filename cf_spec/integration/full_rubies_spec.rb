@@ -2,58 +2,42 @@ $: << 'cf_spec'
 require 'cf_spec_helper'
 
 describe 'For all supported Ruby versions' do
-  context "When a Sinatra app is deployed with Ruby 1.9.3" do
+  shared_examples 'a Sinatra app' do
+    let(:app) { Machete.deploy_app("rubies/tmp/#{ruby_version}") }
+    let(:browser) { Machete::Browser.new(app) }
+
+    specify do
+      generate_app(ruby_version)
+      assert_ruby_version_installed(ruby_version)
+      assert_root_contains('Hello, World')
+      assert_offline_mode_has_no_traffic
+    end
+  end
+
+  context 'Ruby 1.9.3' do
     let(:ruby_version) { '1.9.3' }
-    let(:app) { Machete.deploy_app("rubies/tmp/#{ruby_version}") }
-    let(:browser) { Machete::Browser.new(app) }
 
-    specify do
-      generate_app(ruby_version)
-      assert_ruby_version_installed(ruby_version)
-      assert_root_contains('Hello, World')
-      assert_offline_mode_has_no_traffic
-    end
+    it_behaves_like 'a Sinatra app'
   end
 
-  context "When a Sinatra app is deployed with Ruby 2.0.0" do
+  context 'Ruby 2.0.0' do
     let(:ruby_version) { '2.0.0' }
-    let(:app) { Machete.deploy_app("rubies/tmp/#{ruby_version}") }
-    let(:browser) { Machete::Browser.new(app) }
 
-    specify do
-      generate_app(ruby_version)
-      assert_ruby_version_installed(ruby_version)
-      assert_root_contains('Hello, World')
-      assert_offline_mode_has_no_traffic
-    end
+    it_behaves_like 'a Sinatra app'
   end
 
-  context "When a Sinatra app is deployed with Ruby 2.1.0" do
+  context 'Ruby 2.1.0' do
     let(:ruby_version) { '2.1.0' }
-    let(:app) { Machete.deploy_app("rubies/tmp/#{ruby_version}") }
-    let(:browser) { Machete::Browser.new(app) }
 
-    specify do
-      generate_app(ruby_version)
-      assert_ruby_version_installed(ruby_version)
-      assert_root_contains('Hello, World')
-      assert_offline_mode_has_no_traffic
-    end
+    it_behaves_like 'a Sinatra app'
   end
 
-  context "When a Sinatra app is deployed with Ruby 2.2.0" do
+  context 'Ruby 2.2.0' do
     let(:ruby_version) { '2.2.0' }
-    let(:app) { Machete.deploy_app("rubies/tmp/#{ruby_version}") }
-    let(:browser) { Machete::Browser.new(app) }
 
-    specify do
-      generate_app(ruby_version)
-      assert_ruby_version_installed(ruby_version)
-      assert_root_contains('Hello, World')
-      assert_offline_mode_has_no_traffic
-    end
+    it_behaves_like 'a Sinatra app'
   end
-  # Our DSL
+
 
   def evaluate_erb(file_path, our_binding)
     template = File.read(file_path)
