@@ -9,7 +9,7 @@ cd /tmp
 curl http://cache.ruby-lang.org/pub/ruby/1.9/ruby-1.9.3-p551.tar.gz -s | tar xzv --no-same-owner
 cd ruby-1.9.3-p551
 mkdir -p $BUILD_DIR
-./configure --prefix $BUILD_DIR 
+./configure --prefix $BUILD_DIR --enable-load-relative --disable-install-doc
 make
 make install
 

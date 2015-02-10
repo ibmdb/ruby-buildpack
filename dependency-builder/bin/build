@@ -2,6 +2,58 @@
 
 set -eo pipefail
 
-./bin/ensure_trusty_box
+TARGET_DIR=./targets
 
-vagrant ssh -c "sudo docker run -v /vagrant:/dependency-builder -w /dependency-builder cloudfoundry/lucid64 './vagrant-specific/build.mri-1.9.3'"
+__parse_arguments() {
+  command=${1:-''}
+  target="$TARGET_DIR/${2}"
+  command_name=$0
+}
+
+__usage() {
+  echo "Usage:"
+  echo
+  echo "  $command_name build <build-target>"
+  echo "  $command_name list"
+  exit 1
+}
+
+__ensure_trusty_box() {
+  vagrant up --provider=vmware_fusion
+}
+
+__build() {
+  echo "-----> Ensuring vagrant Box is up"
+  __ensure_trusty_box
+
+  echo "-----> clearing ./out"
+  rm -rf out/*  
+
+  echo "-----> Running build in docker"
+  vagrant ssh -c "sudo docker run -v /vagrant:/dependency-builder -w /dependency-builder cloudfoundry/lucid64 $target"
+}
+
+__list() {
+  echo "Available targets"
+  echo
+  ls $TARGET_DIR
+}
+
+__check_usage() {
+  if [ "$command" == "build" ]; then
+    if [ -f $target ]; then
+      __build
+    else
+      echo "ERROR: target definition '$target' not found"
+      __list
+    fi
+  elif [ "$command" == "list" ]; then
+    __list
+  else
+    __usage
+  fi
+}  
+
+__parse_arguments $@
+__check_usage
+

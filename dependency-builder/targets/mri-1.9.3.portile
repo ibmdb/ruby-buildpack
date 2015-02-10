@@ -1,0 +1,17 @@
+#!/bin/bash
+
+set -eo pipefail
+
+echo "----> Set up env"
+DEPENDENCY_BUILDER_DIR=`pwd`
+BUILD_DIR=$DEPENDENCY_BUILDER_DIR/out/ruby-1.9.3.portile
+
+mkdir -p $BUILD_DIR
+cd $BUILD_DIR
+
+echo "----> Install mini_portile"
+gem install mini_portile
+
+
+echo "----> Run builder"
+ruby $DEPENDENCY_BUILDER_DIR/targets/build-1.9.3.rb
