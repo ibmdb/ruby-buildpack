@@ -20,7 +20,7 @@ describe 'For all supported Ruby versions' do
   end
 
   shared_examples 'a Rails 4 app' do
-    let(:app) { Machete.deploy_app("rubies/tmp/#{ruby_version}/rails", with_pg: true) }
+    let(:app) { Machete.deploy_app("rubies/tmp/#{ruby_version}/rails4", with_pg: true, env: {JAVA_TOOL_OPTIONS: '-Xmx384m -Djava.rmi.server.useCodebaseOnly=true'}) }
     let(:browser) { Machete::Browser.new(app) }
 
     specify do
@@ -41,7 +41,7 @@ describe 'For all supported Ruby versions' do
     let(:engine) { 'ruby' }
     let(:engine_version) { ruby_version }
 
-    # it_behaves_like 'a Sinatra app'
+    it_behaves_like 'a Sinatra app'
     it_behaves_like 'a Rails 4 app'
   end
 
@@ -77,7 +77,7 @@ describe 'For all supported Ruby versions' do
     let(:engine) { 'jruby' }
     let(:engine_version) { '1.7.11' }
 
-    it_behaves_like 'a Sinatra app'
+    # it_behaves_like 'a Sinatra app'
     it_behaves_like 'a Rails 4 app'
   end
 
@@ -113,6 +113,7 @@ describe 'For all supported Ruby versions' do
     origin_template_path = File.join(File.dirname(__FILE__), '..', 'fixtures', 'rubies', app_name)
     copied_template_path = File.join(File.dirname(__FILE__), '..', 'fixtures', 'rubies', 'tmp', ruby_version, app_name)
     FileUtils.rm_rf(copied_template_path)
+    FileUtils.mkdir_p(File.dirname(copied_template_path))
     FileUtils.cp_r(origin_template_path, copied_template_path)
 
     ['Gemfile', 'package.sh', '.jrubyrc'].each do |file|
