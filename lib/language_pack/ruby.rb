@@ -20,6 +20,11 @@ class LanguagePack::Ruby < LanguagePack::Base
   RBX_BASE_URL         = "http://binaries.rubini.us/heroku"
   NODE_BP_PATH         = "vendor/node/bin"
 
+  DB2_DSDRIVER_URL     = "https://public.dhe.ibm.com/ibmdl/export/pub/software/data/db2/drivers/odbc_cli/linuxx64_odbc_cli.tar.gz"
+  DB2_DSDRIVER_FILE    = "clidriver.tgz"
+  DB2_DSDRIVER_STAGING_LOC = "/tmp/staged/app/vendor/bundle"
+  DB2_DSDRIVER_RUNTIME_LOC = "$HOME/vendor/bundle/clidriver/lib"
+
   # detects if this is a valid Ruby app
   # @return [Boolean] true if it's a Ruby app
   def self.use?
@@ -163,6 +168,12 @@ private
   # @return [String] resulting path
   def build_ruby_path
     "/tmp/#{ruby_version.version_without_patchlevel}"
+  end
+
+  def fetch_package_and_untar_to_folder(filename, url, stagedDestfolder)
+      run("curl #{url} -s -o #{filename}") && run("tar xvzf #{filename} -C #{stagedDestfolder}")
+      # return if file exists
+      File.exist?("#{stagedDestfolder}/clidriver/lib/libdb2.so")
   end
 
   # fetch the ruby version from bundler
@@ -840,6 +851,21 @@ params = CGI.parse(uri.query || "")
         puts "See http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=737076."
         purge_bundler_cache
       end
+
+      # install db2 ODBC if required
+      if File.exist?("#{DB2_DSDRIVER_STAGING_LOC}/clidriver/lib/libdb2.so")
+       # nothing to do, is there from cache
+      else
+        puts "downloading and untarring DB2 CLI driver...."
+        if fetch_package_and_untar_to_folder(DB2_DSDRIVER_FILE, DB2_DSDRIVER_URL, DB2_DSDRIVER_STAGING_LOC)
+           puts "setting DB2 ODBC driver ENV variables"
+        else
+           error "Failed to download DB2 ODBC driver. Check if #{DB2_DSDRIVER_URL} is available "
+        end
+      end
+
+      ENV["IBM_DB_HOME"]     = "#{DB2_DSDRIVER_STAGING_LOC}/clidriver"
+      set_env_override "LD_LIBRARY_PATH", "#{DB2_DSDRIVER_RUNTIME_LOC}:$LD_LIBRARY_PATH"
 
       FileUtils.mkdir_p(heroku_metadata)
       @metadata.write(ruby_version_cache, full_ruby_version, false)
