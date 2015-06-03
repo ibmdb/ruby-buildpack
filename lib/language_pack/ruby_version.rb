@@ -12,10 +12,8 @@ module LanguagePack
       end
     end
 
-    DEFAULT_VERSION_NUMBER = "2.0.0"
+    DEFAULT_VERSION_NUMBER = "2.2.2"
     DEFAULT_VERSION        = "ruby-#{DEFAULT_VERSION_NUMBER}"
-    LEGACY_VERSION_NUMBER  = "1.9.2"
-    LEGACY_VERSION         = "ruby-#{LEGACY_VERSION_NUMBER}"
     RUBY_VERSION_REGEX     = %r{
         (?<ruby_version>\d+\.\d+\.\d+){0}
         (?<patchlevel>p\d+){0}
@@ -77,12 +75,10 @@ module LanguagePack
     private
 
     def none
-      if @app[:is_new]
-        DEFAULT_VERSION
-      elsif @app[:last_version]
+      if @app[:last_version] && !@app[:is_new]
         @app[:last_version]
       else
-        LEGACY_VERSION
+        DEFAULT_VERSION
       end
     end
 
