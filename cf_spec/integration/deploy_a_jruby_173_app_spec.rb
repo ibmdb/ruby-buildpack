@@ -1,30 +1,27 @@
-$: << 'cf_spec'
 require 'cf_spec_helper'
 
 describe 'JRuby 1.7.3 App' do
-  subject(:app) { Machete.deploy_app(app_name) }
-  let(:app_name) { 'sinatra_jruby_web_app' }
-
-  after do
-    Machete::CF::DeleteApp.new.execute(app)
+  before(:all) do
+    @app = Machete.deploy_app('sinatra_jruby_web_app')
+    expect(@app).to be_running
   end
 
-  context 'in an offline environment', if: Machete::BuildpackMode.offline? do
-    specify do
-      expect(app).to be_running
-      expect(app).to have_logged 'Installing JVM'
-      expect(app).to have_logged 'ruby-1.8.7-jruby-1.7.8'
-      expect(app).not_to have_logged 'OpenJDK 64-Bit Server VM warning'
-      expect(app.host).not_to have_internet_traffic
-    end
+  after(:all) do
+    Machete::CF::DeleteApp.new.execute(@app)
   end
 
-  context 'in an online environment', if: Machete::BuildpackMode.online? do
-    specify do
-      expect(app).to be_running
-      expect(app).to have_logged 'Installing JVM'
-      expect(app).to have_logged 'ruby-1.8.7-jruby-1.7.8'
-      expect(app).not_to have_logged 'OpenJDK 64-Bit Server VM warning'
+  specify 'the buildpack logged it installed a specific version of JRuby' do
+    expect(@app).to have_logged 'Installing JVM'
+    expect(@app).to have_logged 'ruby-2.0.0-jruby-1.7.19'
+  end
+
+  specify 'the OpenJDK runs properly' do
+    expect(@app).not_to have_logged 'OpenJDK 64-Bit Server VM warning'
+  end
+
+  context 'a cached buildpack', if: Machete::BuildpackMode.offline? do
+    specify 'has no internet traffic' do
+      expect(@app.host).not_to have_internet_traffic
     end
   end
 end
