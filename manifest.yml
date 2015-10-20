@@ -2,198 +2,116 @@
 language: ruby
 
 url_to_dependency_map:
-- match: ruby-(\d+\.\d+\.\d+)-jruby-(\d+\.\d+\.\d+)
-  name: jruby
-  version: ruby-$1-jruby-$2
-- match: ruby-(\d+\.\d+\.\d+)
-  name: ruby
-  version: $1
-- match: node-v?(\d+\.\d+\.\d+)
-  name: node
-  version: $1
-- match: libyaml-(\d+\.\d+\.\d+)
-  name: libyaml
-  version: $1
-- match: bundler-(\d+\.\d+\.\d+)
-  name: bundler
-  version: $1
-- match: ruby_versions
-  name: ruby_versions
-  version: 0
-- match: ruby-build
-  name: ruby-build
-  version: 1.8.7
-- match: rails_log_stdout
-  name: rails_log_stdout
-  version: 0
-- match: rails3_serve_static_assets
-  name: rails3_serve_static_assets
-  version: 0
-- match: openjdk(\d+\.\d+\.\d+_\d+)
-  name: openjdk
-  version: $1
-- match: openjdk7-latest
-  name: openjdk7-latest
-  version: 0
-- match: openjdk1.8-latest
-  name: openjdk1.8-latest
-  version: 0
+  - match: ruby-(.*?)-jruby-(.*?)\.tgz
+    name: jruby
+    version: ruby-$1-jruby-$2
+  - match: ruby-(\d+\.\d+\.\d+)
+    name: ruby
+    version: $1
+  - match: node-v?(\d+\.\d+\.\d+)
+    name: node
+    version: 0.12.7
+  - match: libyaml-(\d+\.\d+\.\d+)
+    name: libyaml
+    version: $1
+  - match: bundler-(\d+\.\d+\.\d+)
+    name: bundler
+    version: $1
+  - match: rails_log_stdout
+    name: rails_log_stdout
+    version: 0
+  - match: rails3_serve_static_assets
+    name: rails3_serve_static_assets
+    version: 0
+  - match: openjdk1.8-latest
+    name: openjdk1.8-latest
+    version: 1.8.0_51
 
 dependencies:
   - name: node
-    version: 0.4.7
-    uri: https://s3-external-1.amazonaws.com/heroku-buildpack-ruby/node-0.4.7.tgz
-  - name: node
-    version: 0.10.30
-    uri: http://nodejs.org/dist/v0.10.30/node-v0.10.30-linux-x64.tar.gz
+    version: 0.12.7
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/node/beta-binaries/node-0.12.7-linux-x64.tar.gz
+    md5: 2b966ce7cceda8bcb6aba43eb99b81cf
+    cf_stacks:
+      - cflinuxfs2
   - name: libyaml
     version: 0.1.6
-    uri: https://s3-external-1.amazonaws.com/heroku-buildpack-ruby/libyaml-0.1.6.tgz
-  - name: bundler
-    version: 1.6.3
-    uri: https://s3-external-1.amazonaws.com/heroku-buildpack-ruby/bundler-1.6.3.tgz
-  - name: bundler
-    version: 1.7.12
-    uri: https://s3-external-1.amazonaws.com/heroku-buildpack-ruby/bundler-1.7.12.tgz
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/ruby/binaries/cflinuxfs2/libyaml-0.1.6.tgz
+    md5: 94665f3a39e670507828f5084a40b669
+    cf_stacks:
+      - cflinuxfs2
   - name: bundler
     version: 1.9.7
     uri: https://pivotal-buildpacks.s3.amazonaws.com/ruby/binaries/shared/bundler-1.9.7.tgz
     md5: 895b476cc0eba8b2cd978a5c5767bc71
-  - name: ruby_versions
-    version: 0
-    uri: https://s3-external-1.amazonaws.com/heroku-buildpack-ruby/ruby_versions.yml
-  - name: ruby-build
-    version: 1.8.7
-    uri: https://s3-external-1.amazonaws.com/heroku-buildpack-ruby/cedar/ruby-build-1.8.7.tgz
+    cf_stacks:
+      - cflinuxfs2
   - name: rails_log_stdout
     version: 0
-    uri: https://s3-external-1.amazonaws.com/heroku-buildpack-ruby/rails_log_stdout.tgz
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/ruby/binaries/lucid64/rails_log_stdout.tgz
+    md5: 9ecd9126ba4a5f12ec98bc75c433885f
+    cf_stacks:
+      - cflinuxfs2
   - name: rails3_serve_static_assets
     version: 0
-    uri: https://s3-external-1.amazonaws.com/heroku-buildpack-ruby/rails3_serve_static_assets.tgz
-  - name: openjdk
-    version: 1.7.0_25
-    uri: http://heroku-jdk.s3.amazonaws.com/openjdk1.7.0_25.tar.gz
-  - name: openjdk
-    version: 1.7.0_45
-    uri: http://heroku-jdk.s3.amazonaws.com/openjdk1.7.0_45.tar.gz
-  - name: openjdk7-latest
-    version: 0
-    uri: http://heroku-jdk.s3.amazonaws.com/openjdk7-latest.tar.gz
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/ruby/binaries/lucid64/rails3_serve_static_assets.tgz
+    md5: 53ec25d17a33791989873388d779d644
+    cf_stacks:
+      - cflinuxfs2
   - name: openjdk1.8-latest
-    version: 0
-    uri: http://lang-jvm.s3.amazonaws.com/jdk/openjdk1.8-latest.tar.gz
+    version: 1.8.0_51
+    uri: https://download.run.pivotal.io/openjdk/trusty/x86_64/openjdk-1.8.0_51.tar.gz
+    md5: aeb29e36b1b1efec8b888c76a21a8d13
+    cf_stacks:
+      - cflinuxfs2
   - name: ruby
-    version: 2.2.0
-    uri: https://s3-external-1.amazonaws.com/heroku-buildpack-ruby/cedar/ruby-2.2.0.tgz
+    version: 2.2.2
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/concourse-binaries/ruby/ruby-2.2.2-linux-x64.tgz
+    md5: 3a66010947862c1225f54933a3697006
+    cf_stacks:
+      - cflinuxfs2
   - name: ruby
-    version: 2.1.5
-    uri: https://pivotal-buildpacks.s3.amazonaws.com/ruby/binaries/lucid64/ruby-2.1.5.tgz
+    version: 2.2.3
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/concourse-binaries/ruby/ruby-2.2.3-linux-x64.tgz
+    md5: bd2987703535e17b2e0f9b732adc0027
+    cf_stacks:
+      - cflinuxfs2
   - name: ruby
-    version: 2.1.4
-    uri: https://s3-external-1.amazonaws.com/heroku-buildpack-ruby/cedar/ruby-2.1.4.tgz
+    version: 2.1.7
+    md5: ad98d11686ecf327e7beb9ad8f0059f6
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/concourse-binaries/ruby/ruby-2.1.7-linux-x64.tgz
+    cf_stacks:
+      - cflinuxfs2
   - name: ruby
-    version: 2.1.3
-    uri: https://s3-external-1.amazonaws.com/heroku-buildpack-ruby/cedar/ruby-2.1.3.tgz
-  - name: ruby
-    version: 2.1.2
-    uri: https://s3-external-1.amazonaws.com/heroku-buildpack-ruby/cedar/ruby-2.1.2.tgz
-  - name: ruby
-    version: 2.1.1
-    uri: https://s3-external-1.amazonaws.com/heroku-buildpack-ruby/cedar/ruby-2.1.1.tgz
-  - name: ruby
-    version: 2.1.0
-    uri: https://s3-external-1.amazonaws.com/heroku-buildpack-ruby/cedar/ruby-2.1.0.tgz
+    version: 2.1.6
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/concourse-binaries/ruby/ruby-2.1.6-linux-x64.tgz
+    md5: 3a3d714bcdbfc1fc7184f30b0da065c5
+    cf_stacks:
+      - cflinuxfs2
   - name: ruby
     version: 2.0.0
-    uri: https://s3-external-1.amazonaws.com/heroku-buildpack-ruby/cedar/ruby-2.0.0.tgz
-  - name: ruby
-    version: 1.9.3
-    uri: https://s3-external-1.amazonaws.com/heroku-buildpack-ruby/cedar/ruby-1.9.3.tgz
-  - name: ruby
-    version: 1.9.2
-    uri: https://s3-external-1.amazonaws.com/heroku-buildpack-ruby/cedar/ruby-1.9.2.tgz
-  - name: ruby
-    version: 1.8.7
-    uri: https://s3-external-1.amazonaws.com/heroku-buildpack-ruby/cedar/ruby-1.8.7.tgz
+    md5: f04f7ccb428fcc1014d8d486a53527b4
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/concourse-binaries/ruby/ruby-2.0.0-p647-linux-x64.tgz
+    cf_stacks:
+      - cflinuxfs2
   - name: jruby
-    version: ruby-1.8.7-jruby-1.7.1
-    uri: https://s3-external-1.amazonaws.com/heroku-buildpack-ruby/cedar/ruby-1.8.7-jruby-1.7.1.tgz
+    version: ruby-1.9.3-jruby-1.7.22
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/concourse-binaries/jruby/jruby-1.7.22_ruby-1.9.3-linux-x64.tgz
+    md5: a3abb11054ebce58c6fb3e02ce0a2ffb
+    cf_stacks:
+      - cflinuxfs2
   - name: jruby
-    version: ruby-1.9.3-jruby-1.7.1
-    uri: https://s3-external-1.amazonaws.com/heroku-buildpack-ruby/cedar/ruby-1.9.3-jruby-1.7.1.tgz
+    version: ruby-2.0.0-jruby-1.7.22
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/concourse-binaries/jruby/jruby-1.7.22_ruby-2.0.0-linux-x64.tgz
+    md5: a8cf2b45282eea48578cbddcd35e14a5
+    cf_stacks:
+      - cflinuxfs2
   - name: jruby
-    version: ruby-1.8.7-jruby-1.7.2
-    uri: https://s3-external-1.amazonaws.com/heroku-buildpack-ruby/cedar/ruby-1.8.7-jruby-1.7.2.tgz
-  - name: jruby
-    version: ruby-1.9.3-jruby-1.7.2
-    uri: https://s3-external-1.amazonaws.com/heroku-buildpack-ruby/cedar/ruby-1.9.3-jruby-1.7.2.tgz
-  - name: jruby
-    version: ruby-1.8.7-jruby-1.7.3
-    uri: https://s3-external-1.amazonaws.com/heroku-buildpack-ruby/cedar/ruby-1.8.7-jruby-1.7.3.tgz
-  - name: jruby
-    version: ruby-1.9.3-jruby-1.7.3
-    uri: https://s3-external-1.amazonaws.com/heroku-buildpack-ruby/cedar/ruby-1.9.3-jruby-1.7.3.tgz
-  - name: jruby
-    version: ruby-1.8.7-jruby-1.7.4
-    uri: https://s3-external-1.amazonaws.com/heroku-buildpack-ruby/cedar/ruby-1.8.7-jruby-1.7.4.tgz
-  - name: jruby
-    version: ruby-1.9.3-jruby-1.7.4
-    uri: https://s3-external-1.amazonaws.com/heroku-buildpack-ruby/cedar/ruby-1.9.3-jruby-1.7.4.tgz
-  - name: jruby
-    version: ruby-1.8.7-jruby-1.7.5
-    uri: https://s3-external-1.amazonaws.com/heroku-buildpack-ruby/cedar/ruby-1.8.7-jruby-1.7.5.tgz
-  - name: jruby
-    version: ruby-1.9.3-jruby-1.7.5
-    uri: https://s3-external-1.amazonaws.com/heroku-buildpack-ruby/cedar/ruby-1.9.3-jruby-1.7.5.tgz
-  - name: jruby
-    version: ruby-2.0.0-jruby-1.7.5
-    uri: https://s3-external-1.amazonaws.com/heroku-buildpack-ruby/cedar/ruby-2.0.0-jruby-1.7.5.tgz
-  - name: jruby
-    version: ruby-1.8.7-jruby-1.7.6
-    uri: https://s3-external-1.amazonaws.com/heroku-buildpack-ruby/cedar/ruby-1.8.7-jruby-1.7.6.tgz
-  - name: jruby
-    version: ruby-1.9.3-jruby-1.7.6
-    uri: https://s3-external-1.amazonaws.com/heroku-buildpack-ruby/cedar/ruby-1.9.3-jruby-1.7.6.tgz
-  - name: jruby
-    version: ruby-2.0.0-jruby-1.7.6
-    uri: https://s3-external-1.amazonaws.com/heroku-buildpack-ruby/cedar/ruby-2.0.0-jruby-1.7.6.tgz
-  - name: jruby
-    version: ruby-1.8.7-jruby-1.7.8
-    uri: https://s3-external-1.amazonaws.com/heroku-buildpack-ruby/cedar/ruby-1.8.7-jruby-1.7.8.tgz
-  - name: jruby
-    version: ruby-1.9.3-jruby-1.7.8
-    uri: https://s3-external-1.amazonaws.com/heroku-buildpack-ruby/cedar/ruby-1.9.3-jruby-1.7.8.tgz
-  - name: jruby
-    version: ruby-2.0.0-jruby-1.7.8
-    uri: https://s3-external-1.amazonaws.com/heroku-buildpack-ruby/cedar/ruby-2.0.0-jruby-1.7.8.tgz
-  - name: jruby
-    version: ruby-1.8.7-jruby-1.7.9
-    uri: https://s3-external-1.amazonaws.com/heroku-buildpack-ruby/cedar/ruby-1.8.7-jruby-1.7.9.tgz
-  - name: jruby
-    version: ruby-1.9.3-jruby-1.7.9
-    uri: https://s3-external-1.amazonaws.com/heroku-buildpack-ruby/cedar/ruby-1.9.3-jruby-1.7.9.tgz
-  - name: jruby
-    version: ruby-2.0.0-jruby-1.7.9
-    uri: https://s3-external-1.amazonaws.com/heroku-buildpack-ruby/cedar/ruby-2.0.0-jruby-1.7.9.tgz
-  - name: jruby
-    version: ruby-1.8.7-jruby-1.7.10
-    uri: https://s3-external-1.amazonaws.com/heroku-buildpack-ruby/cedar/ruby-1.8.7-jruby-1.7.10.tgz
-  - name: jruby
-    version: ruby-1.9.3-jruby-1.7.10
-    uri: https://s3-external-1.amazonaws.com/heroku-buildpack-ruby/cedar/ruby-1.9.3-jruby-1.7.10.tgz
-  - name: jruby
-    version: ruby-2.0.0-jruby-1.7.10
-    uri: https://s3-external-1.amazonaws.com/heroku-buildpack-ruby/cedar/ruby-2.0.0-jruby-1.7.10.tgz
-  - name: jruby
-    version: ruby-1.8.7-jruby-1.7.11
-    uri: https://s3-external-1.amazonaws.com/heroku-buildpack-ruby/cedar/ruby-1.8.7-jruby-1.7.11.tgz
-  - name: jruby
-    version: ruby-1.9.3-jruby-1.7.11
-    uri: https://s3-external-1.amazonaws.com/heroku-buildpack-ruby/cedar/ruby-1.9.3-jruby-1.7.11.tgz
-  - name: jruby
-    version: ruby-2.0.0-jruby-1.7.11
-    uri: https://s3-external-1.amazonaws.com/heroku-buildpack-ruby/cedar/ruby-2.0.0-jruby-1.7.11.tgz
+    version: ruby-2.2.2-jruby-9.0.1.0
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/concourse-binaries/jruby/jruby-9.0.1.0_ruby-2.2.2-linux-x64.tgz
+    md5: 96e990102b7d859cf0e8864e72545a67
+    cf_stacks:
+      - cflinuxfs2
 
 exclude_files:
   - .git/
@@ -209,3 +127,4 @@ exclude_files:
   - bin/package
   - buildpack-packager/
   - ruby_buildpack-*v*.zip
+  - cf_build/
