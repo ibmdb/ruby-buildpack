@@ -88,7 +88,7 @@ dependencies:
     uri: https://s3-external-1.amazonaws.com/heroku-buildpack-ruby/cedar/ruby-2.2.0.tgz
   - name: ruby
     version: 2.1.5
-    uri: https://s3-external-1.amazonaws.com/heroku-buildpack-ruby/cedar/ruby-2.1.5.tgz
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/ruby/binaries/lucid64/ruby-2.1.5.tgz
   - name: ruby
     version: 2.1.4
     uri: https://s3-external-1.amazonaws.com/heroku-buildpack-ruby/cedar/ruby-2.1.4.tgz
