@@ -55,6 +55,10 @@ dependencies:
   - name: bundler
     version: 1.7.12
     uri: https://s3-external-1.amazonaws.com/heroku-buildpack-ruby/bundler-1.7.12.tgz
+  - name: bundler
+    version: 1.9.7
+    uri: https://pivotal-buildpacks.s3.amazonaws.com/ruby/binaries/shared/bundler-1.9.7.tgz
+    md5: 895b476cc0eba8b2cd978a5c5767bc71
   - name: ruby_versions
     version: 0
     uri: https://s3-external-1.amazonaws.com/heroku-buildpack-ruby/ruby_versions.yml
